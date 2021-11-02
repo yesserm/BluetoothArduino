@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">BluetoothArduino</string>
     <string name="mensaje_bluetooth">Bluetooth no encontrado</string>
-    <string name="textoBotonBT">Probar</string>
+    <string name="textoBotonBT">Encontrar</string>
     <string name="resultado">Resultado:</string>
-    <string name="encontrar_button">Encontrar</string>
+    <string name="encontrar_button">Emparejados</string>
+    <string name="dispositivosTexto">Dispositivos</string>
 </resources>
