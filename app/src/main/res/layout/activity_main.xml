@@ -9,21 +9,35 @@
     <TextView
             android:text="@string/resultado"
             android:layout_width="0dp"
-            android:layout_height="100dp" android:id="@+id/textView"
+            android:layout_height="100dp" android:id="@+id/tvResultado"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
-    <Button
-            android:text="Encontrar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" android:id="@+id/btEncontrar" android:layout_weight="1"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:layout_marginStart="60dp" android:layout_marginTop="24dp"/>
-    <Button
-            android:text="@string/textoBotonBT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/btProbarBluetooth"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btEncontrar" app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:layout_marginTop="24dp" app:layout_constraintHorizontal_bias="0.471"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvResultado" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.842"
+            android:id="@+id/linearLayout">
+        <Button
+                android:text="@string/textoBotonBT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/btProbarBluetooth"
+                android:layout_marginEnd="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        <Button
+                android:text="@string/encontrar_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" android:id="@+id/btEncontrar" android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    </LinearLayout>
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:id="@+id/listaElementos"
+            app:layout_constraintHorizontal_bias="0.526"
+            android:layout_marginBottom="16dp" app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="0.0" android:layout_marginTop="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

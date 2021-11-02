@@ -3,4 +3,5 @@
     <string name="mensaje_bluetooth">Bluetooth no encontrado</string>
     <string name="textoBotonBT">Probar</string>
     <string name="resultado">Resultado:</string>
+    <string name="encontrar_button">Encontrar</string>
 </resources>
