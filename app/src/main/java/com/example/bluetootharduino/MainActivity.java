@@ -2,6 +2,7 @@ package com.example.bluetootharduino;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -33,15 +34,15 @@ public class MainActivity extends AppCompatActivity {
     private final List<String> nombresEncontrados = new ArrayList<>();
     private TextView tvResultado;
     private TextView tvDispositivos;
+    AlertDialog dialog;
+    Boolean encontrado = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        tvResultado = findViewById(R.id.tvResultado);
-
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        tvResultado = findViewById(R.id.tvResultado);
         if (bluetoothAdapter != null)
         {
             if (!bluetoothAdapter.isEnabled()) {
@@ -59,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
             tvDispositivos = findViewById(R.id.tvDispositivos);
             String dato = getString(R.string.dispositivosTexto)+" Encontrados";
             tvDispositivos.setText(dato);
+
         }
+
 
         // broadcast
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -71,58 +74,76 @@ public class MainActivity extends AppCompatActivity {
         Button btEncontrar = findViewById(R.id.btEncontrar);
         btEncontrar.setOnClickListener(this::escanearBluetooth);
 
+
         // Lista para dispositivos emparejados
         lista = findViewById(R.id.listaElementos);
         nombresEmparejados = new ArrayList<>();
     }
 
+    public Boolean validarbluetooth()
+    {
+        if (bluetoothAdapter == null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setMessage(R.string.dialog_message)
+                    .setTitle(R.string.dialog_title);
+
+            dialog = builder.create();
+            dialog.show();
+            encontrado = false;
+            return encontrado;
+        }
+        Log.e("ERROR", "res " + true);
+        encontrado = true;
+        return encontrado;
+    }
+
     protected void pruebaBluetooth(View view)
     {
+        if (!validarbluetooth()) {
+            return;
+        }
         String resultado = getString(R.string.resultado);
         nombresEncontrados.clear();
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
         {
-            Toast.makeText(this, R.string.mensaje_bluetooth, Toast.LENGTH_SHORT).show();
-            System.out.println("Bluetooth no soportado");
-            resultado += "\nBluetooth no soportado";
-            tvResultado.setText(resultado);
-            finish();
+                Toast.makeText(this, R.string.mensaje_bluetooth, Toast.LENGTH_SHORT).show();
+                resultado += "\nBluetooth no soportado";
+                tvResultado.setText(resultado);
         } else {
             Toast.makeText(this, "Bluetooth soportado", Toast.LENGTH_SHORT).show();
-            System.out.println("Bluetooth soportado");
             resultado += "\nBluetooth soportado\n";
             tvResultado.setText(resultado);
-        }
 
-        if (!bluetoothAdapter.isDiscovering())
-        {
-            int requestCode = 1;
-            Intent discoverableIntent =
-                    new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            startActivityForResult(discoverableIntent, requestCode);
+            if (!bluetoothAdapter.isDiscovering())
+            {
+                int requestCode = 1;
+                Intent discoverableIntent =
+                        new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+                startActivityForResult(discoverableIntent, requestCode);
 
-            tvDispositivos = findViewById(R.id.tvDispositivos);
-            String dato = getString(R.string.dispositivosTexto)+" Encontrados";
-            tvDispositivos.setText(dato);
+                tvDispositivos = findViewById(R.id.tvDispositivos);
+                String dato = getString(R.string.dispositivosTexto)+" Encontrados";
+                tvDispositivos.setText(dato);
+            }
+            Log.e("DESCUBRIENDO ", " " + bluetoothAdapter.startDiscovery());
         }
-        Log.e("DESCUBRIENDO ", " " + bluetoothAdapter.startDiscovery());
     }
 
     protected void escanearBluetooth(View view)
     {
+        if (!validarbluetooth()) { return; }
         // encontrar dispositivos ya emparejados
         Set<BluetoothDevice> dispositivosEmparejados = bluetoothAdapter.getBondedDevices();
-        if (dispositivosEmparejados.size() >  0)
-        {
-            for( BluetoothDevice dispositivo: dispositivosEmparejados)
-            {
+        if (dispositivosEmparejados.size() > 0) {
+            for (BluetoothDevice dispositivo : dispositivosEmparejados) {
                 String nombreDispositivo = dispositivo.getName();
                 String direccionHardware = dispositivo.getAddress();
                 nombresEmparejados.add(nombreDispositivo + " => " + direccionHardware);
             }
             tvDispositivos = findViewById(R.id.tvDispositivos);
-            String dato = getString(R.string.dispositivosTexto)+" Emparejados";
+            String dato = getString(R.string.dispositivosTexto) + " Emparejados";
             tvDispositivos.setText(dato);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nombresEmparejados);
