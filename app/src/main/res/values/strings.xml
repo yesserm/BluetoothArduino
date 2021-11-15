@@ -5,4 +5,6 @@
     <string name="resultado">Resultado:</string>
     <string name="encontrar_button">Emparejados</string>
     <string name="dispositivosTexto">Dispositivos</string>
+    <string name="dialog_message">El dispositivo no acepta esta caracteristica</string>
+    <string name="dialog_title">Bluetooth no soportado</string>
 </resources>
