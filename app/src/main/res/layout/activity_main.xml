@@ -22,13 +22,16 @@
         <Button
                 android:text="@string/textoBotonBT"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/btProbarBluetooth"
+                android:layout_height="wrap_content"
+                android:id="@+id/btProbarBluetooth"
                 android:layout_marginEnd="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
         <Button
                 android:text="@string/encontrar_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/btEncontrar" android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/btEncontrar"
+                android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     </LinearLayout>
     <ListView
